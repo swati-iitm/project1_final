@@ -188,7 +188,7 @@ def query_gpt(user_input: str, tools: list[Dict[str,Any]]= tools) -> Dict[str, A
     return response.json()
 @app.get ("/")
 def home():
-    return {"The code should work now"}
+    return {"The code should work now."}
 
 def task_runner (task: str):
     url = "https://aiproxy.sanand.workers.dev/openai/v1/chat/completions"
