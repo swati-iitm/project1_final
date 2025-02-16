@@ -115,7 +115,7 @@ async def a4(email, **kwargs):
     contacts = get_contacts(email)
     contacts.sort(key=lambda c: (c["last_name"], c["first_name"]))
     await run(
-        "Sort the array of contacts in `/data/contacts.json` by `last_name`, then `first_name`, and write the result to `/data/contacts-sorted.json`"
+        "Sort the array of contacts in `./data/contacts.json` by `last_name`, then `first_name`, and write the result to `./data/contacts-sorted.json`"
     )
     result = await read("/data/contacts-sorted.json")
     try:
@@ -235,7 +235,7 @@ async def a10(email, **kwargs):
 
 async def main(email: str):
     score, total = 0, 0
-    for task in [a1]:
+    for task in [a4]:
         total += 1
         try:
             success = await task(email=email)

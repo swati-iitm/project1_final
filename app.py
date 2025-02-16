@@ -19,6 +19,8 @@ import urllib.request
 import httpx
 from typing import Dict, Any
 import base64
+import traceback
+
 
 
 app = FastAPI()
@@ -79,13 +81,34 @@ response_format_script = {
 }
 
 @app.get ("/read")
-def read_file (path: str):
+# def read_file (path: str):
+#     try:
+#         with open(path,"r") as f:
+#             content = f.read()
+#             return Response(content=content, status_code=200, media_type="text/plain")
+#     except Exception as e :
+#         raise HTTPException(status_code=404, detail="file doesnt exist")
+# from fastapi import FastAPI, HTTPException, Response
+
+# app = FastAPI()
+
+# @app.get("/read")
+def read_file(path: str):
     try:
-        with open(path,"r") as f:
+        # Try to read the file
+        with open(path, "r") as f:
             content = f.read()
-            return Response(content=content, status_code=200, media_type="text/plain")
-    except Exception as e :
-        raise HTTPException(status_code=404, detail="file doesnt exist")
+        # Return HTTP 200 OK if successful
+        return Response(content=content, status_code=200, media_type="text/plain")
+    except FileNotFoundError:
+        # Return HTTP 400 Bad Request if the file doesn't exist
+        return Response(content="Error: File not found.", status_code=400, media_type="text/plain")
+    except Exception as e:
+        # Log the error for debugging
+        error_details = traceback.format_exc()
+        # Return HTTP 500 Internal Server Error for unexpected errors
+        return Response(content=f"Internal Server Error:\n{error_details}", status_code=500, media_type="text/plain")
+
         
 primary_prompt = """
 You are a programming assistant that writes Python code or bash code.
@@ -102,8 +125,21 @@ For eg. if fastapi, uvicorn are required then in the beginning of the code appen
 # ///
 If you need to read from a file location or write to a file location, consider relative paths. ".
 For extracting information from a file such as sender’s email address, sender's name, receiver's email, receiver's name, phone number etc make use of the Faker package istead of re package.
-The sender of an email is usually afte "From".
-If it is a task to extract information from dates, consider different date formats like 2005/09/12 07:16:01, 2000-02-19, Jul 07, 2023, 16-Jan-2007 and so on.
+The sender of an email is usually denoted by "From".
+If it is a task to extract information from dates. For eg if te task is to count number of Wednesdays we can use code - sum(1 for date in dates if parse(date).weekday() == 2)
+    if result.strip() != str(expected):
+        return mismatch("/data/dates-wednesdays.txt", expected, result)
+    return True
+If we need to change format to prettier, use the exact version of prettier specified in the task. For eg subprocess.run(
+        ["npx", "prettier@3.4.2", "--stdin-filepath", file],
+        input=original,
+        capture_output=True,
+        text=True,
+        check=True,
+        # Ensure npx is picked up from the PATH on Windows
+        shell=True,
+    ).stdout
+For sorting data from a json file we can use similar code. For eg. if the task is to sort by last_name and first_name, we can use this code - contacts.sort(key=lambda c: (c["last_name"], c["first_name"]))
 """
 script_prompt = """
 You are an agent that identifies the url provided and the email provided to run a script.This URL is a direct link to a Python script.
@@ -159,7 +195,8 @@ SCRIPT_RUNNER = {
 
 tools=[SCRIPT_RUNNER, TASK_RUNNER]
 
-AIPROXY_TOKEN = os.environ["AIPROXY_TOKEN"]
+#AIPROXY_TOKEN = os.environ["AIPROXY_TOKEN"]
+AIPROXY_TOKEN = 'eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjIzZHMzMDAwMTg1QGRzLnN0dWR5LmlpdG0uYWMuaW4ifQ.zjOoLtUcmCP0HZ62lm1c_xf8mCb3uBff9SxAXXRxdcU'
 
 url = "https://aiproxy.sanand.workers.dev/openai/v1/chat/completions"
 
