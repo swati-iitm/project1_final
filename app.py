@@ -245,7 +245,7 @@ def install_script(in_url: str, in_email: str):
             return {"error": "Failed to install `uv`.", "details": e.stderr}
 
     # Step 2: Define a relative path for storing the data
-    relative_path = "data"
+    relative_path = "/data"
     os.makedirs(relative_path, exist_ok=True)  # Create the folder if it doesn't exist
 
     # Step 3: Derive script name from URL
