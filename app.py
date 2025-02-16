@@ -100,7 +100,7 @@ For eg. if fastapi, uvicorn are required then in the beginning of the code appen
 #    "uvicorn"
 # ]
 # ///
-If you need to read from a file location or write to a file location, consider relative paths. Start the path with ./".
+If you need to read from a file location or write to a file location, consider relative paths. ".
 For extracting information from a file such as sender’s email address, sender's name, receiver's email, receiver's name, phone number etc make use of the Faker package istead of re package.
 The sender of an email is usually afte "From".
 If it is a task to extract information from dates, consider different date formats like 2005/09/12 07:16:01, 2000-02-19, Jul 07, 2023, 16-Jan-2007 and so on.
