@@ -1,18 +1,27 @@
 # /// script
-# requires-python = ">=3.8"  # Updated to a valid version
-# dependencies = [
-#    "json"
-# ]
+# requires-node = ">=16"  # Ensure Node.js is available
+# dependencies = {
+#     "prettier": "3.4.2"
+# }
 # ///
-import json
 
-# Load contacts from the JSON file
-with open('./data/contacts.json', 'r') as file:
-    contacts = json.load(file)
+import subprocess
 
-# Sort contacts by last_name and then first_name
-contacts.sort(key=lambda c: (c['last_name'], c['first_name']))
+def format_with_prettier(file_path):
+    try:
+        # Run prettier command to format the file in-place
+        subprocess.run(
+            ["npx", "prettier", "--write", file_path],
+            check=True,
+            text=True
+        )
+        print(f"Successfully formatted {file_path} using Prettier.")
+    except FileNotFoundError:
+        print("Prettier is not available. Ensure the metadata dependencies are correct.")
+    except subprocess.CalledProcessError as e:
+        print(f"Error occurred while formatting: {e}")
 
-# Save the sorted contacts to a new JSON file
-with open('./data/contacts-sorted.json', 'w') as file:
-    json.dump(contacts, file, indent=4)
+# File to be formatted
+file_to_format = "/data/format.md"
+
+format_with_prettier(file_to_format)

@@ -195,8 +195,8 @@ SCRIPT_RUNNER = {
 
 tools=[SCRIPT_RUNNER, TASK_RUNNER]
 
-#AIPROXY_TOKEN = os.environ["AIPROXY_TOKEN"]
-AIPROXY_TOKEN = 'eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjIzZHMzMDAwMTg1QGRzLnN0dWR5LmlpdG0uYWMuaW4ifQ.zjOoLtUcmCP0HZ62lm1c_xf8mCb3uBff9SxAXXRxdcU'
+AIPROXY_TOKEN = os.environ["AIPROXY_TOKEN"]
+
 
 url = "https://aiproxy.sanand.workers.dev/openai/v1/chat/completions"
 
