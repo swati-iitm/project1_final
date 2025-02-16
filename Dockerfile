@@ -14,6 +14,6 @@ ENV PATH="/root/.local/bin/:$PATH"
 
 WORKDIR /app
 
-copy main_app.py /app
+copy app.py /app
 
 CMD ["uv","run","app.py"]
